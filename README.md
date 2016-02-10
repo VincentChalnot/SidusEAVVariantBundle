@@ -1,0 +1,4 @@
+SidusEAVVariantBundle
+===========
+
+Work in progress.

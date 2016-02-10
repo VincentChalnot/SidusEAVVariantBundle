@@ -1,0 +1,18 @@
+sidus_eav_variant:
+    link:
+        create:
+            label: Add new variant
+            title: Create new variant from allowed family
+        select:
+            label: Add new variant
+            title: Choose new family to create a new variant
+        edit:
+            title: Edit variant
+        delete:
+            title: Delete variant
+    text:
+        allowed_variants: "Allowed variant families :"
+        axles:
+            title: Variant Axles
+    errors:
+        invalid_axle_combination: Invalid axle values combination, the same values already exists in another variant
