@@ -21,7 +21,7 @@
         <ul class="list-group">
             {% for variant in variants %}
                 <li class="list-group-item">
-                    {{ variant }}
+                    {{ variant }} <span class="text-muted">({{ variant.family }})</span>
                     <div class="btn-group pull-right">
                         <a href="{{ path(routes.edit, base_route_parameters|merge({family: variant.family.code, id: variant.id})) }}"
                            class="btn btn-default" title="{{ 'sidus_eav_variant.link.edit.title'|trans }}">
