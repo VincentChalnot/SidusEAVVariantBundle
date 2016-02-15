@@ -56,6 +56,7 @@ class VariantCollectionType extends AbstractType
         $attribute = $options['attribute'];
         /** @var Data $data */
         $data = $form->getData();
+        $view->vars['data'] = $data;
 
         $variantFamiliesOption = $attribute->getOption('variant_families');
         if (empty($variantFamiliesOption)) {

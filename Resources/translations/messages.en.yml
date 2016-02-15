@@ -14,5 +14,6 @@ sidus_eav_variant:
         allowed_variants: "Allowed variant families :"
         axles:
             title: Variant Axles
+        create_first: Please save your entity before adding variant
     errors:
         invalid_axle_combination: Invalid axle values combination, the same values already exists in another variant
