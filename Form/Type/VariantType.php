@@ -43,17 +43,19 @@ class VariantType extends DataType
      */
     public function buildValuesForm(FormInterface $form, FamilyInterface $family, Data $data = null, array $options = [])
     {
-        $form->add('axles', 'sidus_axles', [
-            'disabled' => $data->getId() ? true : false,
-        ]);
-        /** @var VariantFamily $family */
-        foreach ($family->getAxles() as $attribute) {
-            $this->addAttribute($form->get('axles'), $attribute, $family, $data, [
-                'required' => true,
-                'constraints' => [
-                    new NotBlank(),
-                ],
+        if ($family instanceof VariantFamily) {
+            $form->add('axles', 'sidus_axles', [
+                'disabled' => $data->getId() ? true : false,
             ]);
+            $axles = $form->get('axles');
+            foreach ($family->getAxles() as $attribute) {
+                $this->addAttribute($axles, $attribute, $family, $data, [
+                    'required' => true,
+                    'constraints' => [
+                        new NotBlank(),
+                    ],
+                ]);
+            }
         }
         parent::buildValuesForm($form, $family, $data, $options);
     }

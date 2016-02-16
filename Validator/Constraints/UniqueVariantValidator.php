@@ -47,7 +47,7 @@ class UniqueVariantValidator extends ConstraintValidator
         }
         $family = $data->getFamily();
         if (!$family instanceof VariantFamily) {
-            throw new \UnexpectedValueException("Data family must be a VariantFamily, '{$family->getCode()}' given");
+            return;
         }
         $currentCombination = [];
         foreach ($family->getAxles() as $attribute) {
