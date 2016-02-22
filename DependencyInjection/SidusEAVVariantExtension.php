@@ -29,6 +29,7 @@ class SidusEAVVariantExtension extends Extension
 
         $dataClass = $container->getParameter('sidus_eav_model.entity.data.class');
         $valueClass = $container->getParameter('sidus_eav_model.entity.value.class');
+        $contextClass = $container->getParameter('sidus_eav_model.entity.context.class');
         $defaultContext = $container->getParameter('sidus_eav_model.context.default_context');
 
         $container->setParameter('sidus_eav_variant.config.routes', $config['routes']);
@@ -40,6 +41,9 @@ class SidusEAVVariantExtension extends Extension
             }
             if (empty($familyConfiguration['value_class'])) {
                 $familyConfiguration['value_class'] = $valueClass;
+            }
+            if (empty($familyConfiguration['context_class'])) {
+                $familyConfiguration['context_class'] = $contextClass;
             }
             $familyConfiguration['default_context'] = $defaultContext;
             $this->addFamilyServiceDefinition($code, $familyConfiguration, $container);
