@@ -18,7 +18,7 @@
     "psr-0": { "Sidus\\EAVVariantBundle": "" }
   },
   "require": {
-    "sidus/eav-model-bundle": "1.0",
-    "sidus/eav-bootstrap-bundle": "1.0"
+    "sidus/eav-model-bundle": "dev-master",
+    "sidus/eav-bootstrap-bundle": "dev-master"
   }
 }
