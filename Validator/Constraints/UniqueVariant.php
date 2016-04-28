@@ -2,13 +2,13 @@
 
 namespace Sidus\EAVVariantBundle\Validator\Constraints;
 
-use Sidus\EAVModelBundle\Entity\Data;
+use Sidus\EAVModelBundle\Entity\DataInterface;
 use Sidus\EAVModelBundle\Model\AttributeInterface;
 use Symfony\Component\Validator\Constraint;
 
 class UniqueVariant extends Constraint
 {
-    /** @var Data */
+    /** @var DataInterface */
     public $parentData;
 
     /** @var AttributeInterface */

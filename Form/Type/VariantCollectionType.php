@@ -2,21 +2,13 @@
 
 namespace Sidus\EAVVariantBundle\Form\Type;
 
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\QueryBuilder;
 use Sidus\EAVModelBundle\Configuration\AttributeConfigurationHandler;
 use Sidus\EAVModelBundle\Configuration\FamilyConfigurationHandler;
-use Sidus\EAVModelBundle\Entity\Data;
+use Sidus\EAVModelBundle\Entity\DataInterface;
 use Sidus\EAVModelBundle\Exception\MissingFamilyException;
 use Sidus\EAVModelBundle\Model\AttributeInterface;
-use Sidus\EAVModelBundle\Model\Family;
 use Sidus\EAVVariantBundle\Model\VariantAttributeType;
-use Sidus\EAVVariantBundle\Model\VariantFamily;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Exception\UnexpectedTypeException;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Exception\AccessException;
@@ -49,12 +41,12 @@ class VariantCollectionType extends AbstractType
 
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        if (!$form->getData() instanceof Data) {
+        if (!$form->getData() instanceof DataInterface) {
             throw new \UnexpectedValueException('Form data must be an EAV Data');
         }
         /** @var AttributeInterface $attribute */
         $attribute = $options['attribute'];
-        /** @var Data $data */
+        /** @var DataInterface $data */
         $data = $form->getData();
         $view->vars['data'] = $data;
 

@@ -3,11 +3,10 @@
 namespace Sidus\EAVVariantBundle\Validator\Constraints;
 
 use Exception;
-use Sidus\EAVModelBundle\Model\AttributeInterface;
+use Sidus\EAVModelBundle\Entity\DataInterface;
 use Sidus\EAVVariantBundle\Model\VariantFamily;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
-use Sidus\EAVModelBundle\Entity\Data as SidusData;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
@@ -21,6 +20,7 @@ class UniqueVariantValidator extends ConstraintValidator
 
     /**
      * UniqueVariantValidator constructor.
+     *
      * @param string $dataClass
      */
     public function __construct($dataClass)
@@ -31,8 +31,8 @@ class UniqueVariantValidator extends ConstraintValidator
     /**
      * Checks if the passed value is valid.
      *
-     * @param SidusData $data The value that should be validated
-     * @param Constraint $constraint The constraint for the validation
+     * @param DataInterface $data       The value that should be validated
+     * @param Constraint    $constraint The constraint for the validation
      * @return ConstraintViolationListInterface
      * @throws Exception
      */
@@ -57,7 +57,7 @@ class UniqueVariantValidator extends ConstraintValidator
             $currentCombination[$attribute->getCode()] = $data->getValueData($attribute);
         }
 
-        /** @var SidusData $variantData */
+        /** @var DataInterface $variantData */
         foreach ($constraint->parentData->getValuesData($constraint->attribute) as $variantData) {
             if ($variantData->getFamilyCode() !== $family->getCode()) {
                 continue;
@@ -89,6 +89,7 @@ class UniqueVariantValidator extends ConstraintValidator
                 return false;
             }
         }
+
         return true;
     }
 }
