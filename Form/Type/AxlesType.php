@@ -26,10 +26,11 @@ class AxlesType extends AbstractType
             'inherit_data' => true,
             'read_only' => null,
         ]);
-        $resolver->setNormalizer('read_only', function(Options $options, $value) {
+        $resolver->setNormalizer('read_only', function (Options $options, $value) {
             if (null === $value) {
                 return $options['disabled'];
             }
+
             return $value;
         });
     }

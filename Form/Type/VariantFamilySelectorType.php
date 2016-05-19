@@ -22,6 +22,7 @@ class VariantFamilySelectorType extends AbstractType
 
     /**
      * VariantFamilySelectorType constructor.
+     *
      * @param FamilyConfigurationHandler $familyConfigurationHandler
      */
     public function __construct(FamilyConfigurationHandler $familyConfigurationHandler)
@@ -49,13 +50,13 @@ class VariantFamilySelectorType extends AbstractType
             'attribute',
             'parent_data',
         ]);
-        $resolver->setNormalizer('attribute', function(Options $options, $value) {
+        $resolver->setNormalizer('attribute', function (Options $options, $value) {
             return VariantType::normalizeVariantAttribute($value);
         });
-        $resolver->setNormalizer('parent_data', function(Options $options, $value) {
+        $resolver->setNormalizer('parent_data', function (Options $options, $value) {
             return VariantType::normalizeParentData($options, $value);
         });
-        $resolver->setNormalizer('choices', function(Options $options, $value) {
+        $resolver->setNormalizer('choices', function (Options $options, $value) {
             $attribute = $options['attribute'];
             $families = [];
             foreach ($attribute->getOptions()['variant_families'] as $familyCode) {
@@ -65,10 +66,14 @@ class VariantFamilySelectorType extends AbstractType
                 }
                 $families[ucfirst($family)] = $family;
             }
+
             return $families;
         });
     }
 
+    /**
+     * @return string
+     */
     public function getParent()
     {
         return 'sidus_family_selector';

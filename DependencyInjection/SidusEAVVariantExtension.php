@@ -2,15 +2,15 @@
 
 namespace Sidus\EAVVariantBundle\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\BadMethodCallException;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Parameter;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\DependencyInjection\Loader;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -20,7 +20,9 @@ use Symfony\Component\DependencyInjection\Loader;
 class SidusEAVVariantExtension extends Extension
 {
     /**
-     * {@inheritdoc}
+     * @param array            $configs
+     * @param ContainerBuilder $container
+     * @throws \Exception
      */
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -29,7 +31,6 @@ class SidusEAVVariantExtension extends Extension
 
         $dataClass = $container->getParameter('sidus_eav_model.entity.data.class');
         $valueClass = $container->getParameter('sidus_eav_model.entity.value.class');
-        $defaultContext = $container->getParameter('sidus_eav_model.context.default_context');
 
         $container->setParameter('sidus_eav_variant.config.routes', $config['routes']);
 
@@ -41,7 +42,6 @@ class SidusEAVVariantExtension extends Extension
             if (empty($familyConfiguration['value_class'])) {
                 $familyConfiguration['value_class'] = $valueClass;
             }
-            $familyConfiguration['default_context'] = $defaultContext;
             $this->addFamilyServiceDefinition($code, $familyConfiguration, $container);
         }
 
@@ -52,8 +52,8 @@ class SidusEAVVariantExtension extends Extension
     }
 
     /**
-     * @param string $code
-     * @param array $familyConfiguration
+     * @param string           $code
+     * @param array            $familyConfiguration
      * @param ContainerBuilder $container
      * @throws BadMethodCallException
      * @throws InvalidArgumentException
@@ -64,11 +64,12 @@ class SidusEAVVariantExtension extends Extension
             $code,
             new Reference('sidus_eav_model.attribute_configuration.handler'),
             new Reference('sidus_eav_model.family_configuration.handler'),
+            new Reference('sidus_eav_model.context.manager'),
             $familyConfiguration,
         ]);
         $definition->addMethodCall('setTranslator', [new Reference('translator')]);
         $definition->addTag('sidus.family');
-        $sId = 'sidus_eav_variant.family.' . $code;
+        $sId = 'sidus_eav_variant.family.'.$code;
         $container->setDefinition($sId, $definition);
     }
 }

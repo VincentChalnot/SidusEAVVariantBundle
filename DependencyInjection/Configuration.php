@@ -23,23 +23,23 @@ class Configuration extends BaseConfiguration
         $rootNode = $treeBuilder->root('sidus_eav_variant');
         $familyDefinition = $rootNode
             ->children()
-                ->arrayNode('routes')
-                    ->children()
-                        ->scalarNode('select')->isRequired()->end()
-                        ->scalarNode('create')->isRequired()->end()
-                        ->scalarNode('edit')->isRequired()->end()
-                        ->scalarNode('delete')->isRequired()->end()
-                    ->end()
-                ->end()
-                ->arrayNode('families')
-                    ->prototype('array')
-                        ->children();
+            ->arrayNode('routes')
+            ->children()
+            ->scalarNode('select')->isRequired()->end()
+            ->scalarNode('create')->isRequired()->end()
+            ->scalarNode('edit')->isRequired()->end()
+            ->scalarNode('delete')->isRequired()->end()
+            ->end()
+            ->end()
+            ->arrayNode('families')
+            ->prototype('array')
+            ->children();
 
         $this->appendFamilyDefinition($familyDefinition);
 
         $familyDefinition->end()
-                    ->end()
-                ->end()
+            ->end()
+            ->end()
             ->end();
 
         return $treeBuilder;
@@ -50,7 +50,7 @@ class Configuration extends BaseConfiguration
         parent::appendFamilyDefinition($familyDefinition);
         $familyDefinition
             ->arrayNode('axles')
-                ->prototype('scalar')->end()
+            ->prototype('scalar')->end()
             ->end();
     }
 }

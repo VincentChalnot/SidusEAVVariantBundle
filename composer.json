@@ -1,24 +1,30 @@
 {
-  "name": "sidus/eav-variant-bundle",
-  "description": "Add the possibility to define variant associations in the EAV model with axles and validation on unique combination",
-  "keywords": [ "eav", "variant", "axles" ],
-  "homepage": "https://github.com/VincentChalnot/SidusEAVVariantBundle",
-  "type": "library",
-  "license": "GPL-2.0",
-  "authors": [
-    {
-      "name": "Vincent Chalnot",
-      "email": "vincent@sidus.fr",
-      "homepage": "http://chalnot.fr",
-      "role": "Developer"
+    "name": "sidus/eav-variant-bundle",
+    "description": "Add the possibility to define variant associations in the EAV model with axles and validation on unique combination",
+    "keywords": [
+        "eav",
+        "variant",
+        "axles"
+    ],
+    "homepage": "https://github.com/VincentChalnot/SidusEAVVariantBundle",
+    "type": "library",
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "Vincent Chalnot",
+            "email": "vincent@sidus.fr",
+            "homepage": "http://chalnot.fr",
+            "role": "Developer"
+        }
+    ],
+    "target-dir": "Sidus/EAVVariantBundle",
+    "autoload": {
+        "psr-0": {
+            "Sidus\\EAVVariantBundle": ""
+        }
+    },
+    "require": {
+        "sidus/eav-model-bundle": "dev-master",
+        "sidus/eav-bootstrap-bundle": "dev-master"
     }
-  ],
-  "target-dir": "Sidus/EAVVariantBundle",
-  "autoload": {
-    "psr-0": { "Sidus\\EAVVariantBundle": "" }
-  },
-  "require": {
-    "sidus/eav-model-bundle": "dev-master",
-    "sidus/eav-bootstrap-bundle": "dev-master"
-  }
 }

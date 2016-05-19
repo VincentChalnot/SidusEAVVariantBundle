@@ -4,6 +4,7 @@ namespace Sidus\EAVVariantBundle\Model;
 
 use Sidus\EAVModelBundle\Configuration\AttributeConfigurationHandler;
 use Sidus\EAVModelBundle\Configuration\FamilyConfigurationHandler;
+use Sidus\EAVModelBundle\Context\ContextManager;
 use Sidus\EAVModelBundle\Model\AttributeInterface;
 use Sidus\EAVModelBundle\Model\Family;
 use UnexpectedValueException;
@@ -20,13 +21,20 @@ class VariantFamily extends Family
         $code,
         AttributeConfigurationHandler $attributeConfigurationHandler,
         FamilyConfigurationHandler $familyConfigurationHandler,
+        ContextManager $contextManager,
         array $config
     ) {
         foreach ($config['axles'] as $axle) {
             $this->axles[$axle] = $attributeConfigurationHandler->getAttribute($axle);
         }
         unset($config['axles']);
-        parent::__construct($code, $attributeConfigurationHandler, $familyConfigurationHandler, $config);
+        parent::__construct(
+            $code,
+            $attributeConfigurationHandler,
+            $familyConfigurationHandler,
+            $contextManager,
+            $config
+        );
     }
 
     /**
@@ -38,7 +46,7 @@ class VariantFamily extends Family
     }
 
     /**
-     * @param $code
+     * @param string $code
      * @return AttributeInterface
      * @throws UnexpectedValueException
      */
@@ -47,11 +55,12 @@ class VariantFamily extends Family
         if (!$this->hasAxle($code)) {
             throw new UnexpectedValueException("Unknown axle {$code} in family {$this->code}");
         }
+
         return $this->axles[$code];
     }
 
     /**
-     * @param $code
+     * @param string $code
      * @return bool
      */
     public function hasAxle($code)
@@ -75,6 +84,7 @@ class VariantFamily extends Family
         if ($this->hasAxle($code)) {
             return $this->getAxle($code);
         }
+
         return parent::getAttribute($code);
     }
 
@@ -86,6 +96,7 @@ class VariantFamily extends Family
         if ($this->hasAxle($code)) {
             return true;
         }
+
         return parent::hasAttribute($code);
     }
 }

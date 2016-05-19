@@ -6,27 +6,27 @@ parameters:
 
 services:
     sidus_eav_variant.form.type.variant_collection:
-        class: %sidus_eav_variant.form.type.variant_collection.class%
+        class: '%sidus_eav_variant.form.type.variant_collection.class%'
         arguments:
-            - @sidus_eav_model.family_configuration.handler
-            - @sidus_eav_model.attribute_configuration.handler
-            - %sidus_eav_variant.config.routes%
+            - '@sidus_eav_model.family_configuration.handler'
+            - '@sidus_eav_model.attribute_configuration.handler'
+            - '%sidus_eav_variant.config.routes%'
         tags:
             - { name: form.type, alias: sidus_variant_collection }
 
     sidus_eav_variant.form.type.variant:
-        class: %sidus_eav_variant.form.type.variant.class%
+        class: '%sidus_eav_variant.form.type.variant.class%'
         parent: sidus_eav_model.form.type.data
         tags:
             - { name: form.type, alias: sidus_variant }
 
     sidus_eav_variant.form.type.variant_family_selector:
-        class: %sidus_eav_variant.form.type.variant_family_selector.class%
-        arguments: [@sidus_eav_model.family_configuration.handler]
+        class: '%sidus_eav_variant.form.type.variant_family_selector.class%'
+        arguments: ['@sidus_eav_model.family_configuration.handler']
         tags:
             - { name: form.type, alias: sidus_variant_family_selector }
 
     sidus_eav_variant.form.type.axles:
-        class: %sidus_eav_variant.form.type.axles.class%
+        class: '%sidus_eav_variant.form.type.axles.class%'
         tags:
             - { name: form.type, alias: sidus_axles }

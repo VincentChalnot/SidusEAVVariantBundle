@@ -15,18 +15,24 @@ class UniqueVariant extends Constraint
     public $attribute;
 
     /**
-     * @inheritdoc
+     * @return array
      */
     public function getRequiredOptions()
     {
         return ['parentData', 'attribute'];
     }
 
+    /**
+     * @return string
+     */
     public function validatedBy()
     {
         return 'sidus_unique_variant';
     }
 
+    /**
+     * @return string
+     */
     public function getTargets()
     {
         return self::CLASS_CONSTRAINT;

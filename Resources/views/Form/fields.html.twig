@@ -5,8 +5,9 @@
         <div class="panel-heading">
             {% if data.id %}
                 {% if variant_families|length == 1 %}
-                    <a href="{{ path(routes.create, base_route_parameters|merge({family: variant_families|first.code})) }}" class="btn btn-primary"
-                        title="{{ 'sidus_eav_variant.link.create.title'|trans }}">
+                    <a href="{{ path(routes.create, base_route_parameters|merge({family: variant_families|first.code})) }}"
+                       class="btn btn-primary"
+                       title="{{ 'sidus_eav_variant.link.create.title'|trans }}">
                         <i class="fa fa-plus"></i> {{ 'sidus_eav_variant.link.create.label'|trans }}
                     </a>
                 {% else %}
@@ -31,7 +32,8 @@
                            class="btn btn-default" title="{{ 'sidus_eav_variant.link.edit.title'|trans }}">
                             <i class="fa fa-edit"></i>
                         </a>
-                        <a href="{{ path(routes.delete, base_route_parameters|merge({family: variant.family.code, id: variant.id})) }}" class="btn btn-danger" title="{{ 'sidus_eav_variant.link.delete.title'|trans }}">
+                        <a href="{{ path(routes.delete, base_route_parameters|merge({family: variant.family.code, id: variant.id})) }}"
+                           class="btn btn-danger" title="{{ 'sidus_eav_variant.link.delete.title'|trans }}">
                             <i class="fa fa-trash"></i>
                         </a>
                     </div>

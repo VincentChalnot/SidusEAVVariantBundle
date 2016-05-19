@@ -28,17 +28,28 @@ class VariantCollectionType extends AbstractType
     protected $routes;
 
     /**
-     * @param FamilyConfigurationHandler $familyConfigurationHandler
+     * @param FamilyConfigurationHandler    $familyConfigurationHandler
      * @param AttributeConfigurationHandler $attributeConfigurationHandler
-     * @param array $routes
+     * @param array                         $routes
      */
-    public function __construct(FamilyConfigurationHandler $familyConfigurationHandler, AttributeConfigurationHandler $attributeConfigurationHandler, array $routes)
-    {
+    public function __construct(
+        FamilyConfigurationHandler $familyConfigurationHandler,
+        AttributeConfigurationHandler $attributeConfigurationHandler,
+        array $routes
+    ) {
         $this->familyConfigurationHandler = $familyConfigurationHandler;
         $this->attributeConfigurationHandler = $attributeConfigurationHandler;
         $this->routes = $routes;
     }
 
+    /**
+     * @param FormView      $view
+     * @param FormInterface $form
+     * @param array         $options
+     * @throws \UnexpectedValueException
+     * @throws \LogicException
+     * @throws \Sidus\EAVModelBundle\Exception\MissingFamilyException
+     */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         if (!$form->getData() instanceof DataInterface) {
@@ -78,12 +89,12 @@ class VariantCollectionType extends AbstractType
     {
         $resolver->setDefaults([
             'required' => false,
-            'routes' => $this->routes
+            'routes' => $this->routes,
         ]);
         $resolver->setRequired([
             'attribute',
         ]);
-        $resolver->setNormalizer('attribute', function(Options $options, $value) {
+        $resolver->setNormalizer('attribute', function (Options $options, $value) {
             if ($value instanceof AttributeInterface) {
                 return $value;
             }
@@ -91,6 +102,7 @@ class VariantCollectionType extends AbstractType
             if (!$attribute->getType() instanceof VariantAttributeType) {
                 throw new \UnexpectedValueException('Attribute option must be of type VariantAttributeType');
             }
+
             return $attribute;
         });
     }
