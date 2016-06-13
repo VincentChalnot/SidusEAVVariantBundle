@@ -8,6 +8,15 @@ use Sidus\EAVModelBundle\Model\AttributeType;
 class VariantAttributeType extends AttributeType
 {
     /**
+     * @inheritdoc
+     */
+    public function __construct($code, $databaseType, $formType, array $formOptions = [])
+    {
+        parent::__construct($code, $databaseType, $formType, $formOptions);
+        $this->isRelation = false;
+    }
+
+    /**
      * @param AttributeInterface $attribute
      * @throws \Exception
      */
