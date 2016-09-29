@@ -4,6 +4,7 @@ namespace Sidus\EAVVariantBundle\Form\Type;
 
 use Sidus\EAVModelBundle\Configuration\FamilyConfigurationHandler;
 use Sidus\EAVModelBundle\Exception\MissingFamilyException;
+use Sidus\EAVModelBundle\Form\Type\FamilySelectorType;
 use Sidus\EAVVariantBundle\Model\VariantFamily;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\Exception\AccessException;
@@ -59,7 +60,9 @@ class VariantFamilySelectorType extends AbstractType
         $resolver->setNormalizer('choices', function (Options $options, $value) {
             $attribute = $options['attribute'];
             $families = [];
-            foreach ($attribute->getOptions()['variant_families'] as $familyCode) {
+            /** @var array $variantFamilies */
+            $variantFamilies = $attribute->getOptions()['variant_families'];
+            foreach ($variantFamilies as $familyCode) {
                 $family = $this->familyConfigurationHandler->getFamily($familyCode);
                 if (!$family instanceof VariantFamily) {
                     throw new \UnexpectedValueException("Variant families in attribute options must be of type VariantFamily, '{$family->getCode()}' is not a variant");
@@ -76,13 +79,13 @@ class VariantFamilySelectorType extends AbstractType
      */
     public function getParent()
     {
-        return 'sidus_family_selector';
+        return FamilySelectorType::class;
     }
 
     /**
      * @return string
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'sidus_variant_family_selector';
     }

@@ -110,7 +110,7 @@ class VariantCollectionType extends AbstractType
     /**
      * @return string
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'sidus_variant_collection';
     }

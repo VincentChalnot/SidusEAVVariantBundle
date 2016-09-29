@@ -38,7 +38,7 @@ class AxlesType extends AbstractType
     /**
      * @return string
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'sidus_axles';
     }

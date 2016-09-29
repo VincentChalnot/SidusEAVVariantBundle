@@ -80,7 +80,7 @@ class VariantType extends DataType
         array $options = []
     ) {
         if ($family instanceof VariantFamily) {
-            $form->add('axles', 'sidus_axles', [
+            $form->add('axles', AxlesType::class, [
                 'disabled' => $data->getId() ? true : false,
             ]);
             $axles = $form->get('axles');
@@ -126,7 +126,7 @@ class VariantType extends DataType
     /**
      * @return string
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'sidus_variant';
     }
