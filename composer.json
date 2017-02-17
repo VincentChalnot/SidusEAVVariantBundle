@@ -24,7 +24,7 @@
         }
     },
     "require": {
-        "sidus/eav-model-bundle": "dev-master",
-        "sidus/eav-bootstrap-bundle": "dev-master"
+        "sidus/eav-model-bundle": "dev-v1.2.x-dev",
+        "sidus/eav-bootstrap-bundle": "dev-v1.2.x-dev"
     }
 }
