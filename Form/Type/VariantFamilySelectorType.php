@@ -33,6 +33,7 @@ class VariantFamilySelectorType extends AbstractType
 
     /**
      * @param OptionsResolver $resolver
+     *
      * @throws AccessException
      * @throws UndefinedOptionsException
      * @throws MissingFamilyException
@@ -43,35 +44,50 @@ class VariantFamilySelectorType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'required' => true,
-            'constraints' => new NotBlank(),
-        ]);
-        $resolver->setRequired([
+        $resolver->setDefaults(
+            [
+                'required' => true,
+                'constraints' => new NotBlank(),
+            ]
+        );
+        $resolver->setRequired(
+            [
+                'attribute',
+                'parent_data',
+            ]
+        );
+        $resolver->setNormalizer(
             'attribute',
-            'parent_data',
-        ]);
-        $resolver->setNormalizer('attribute', function (Options $options, $value) {
-            return VariantType::normalizeVariantAttribute($value);
-        });
-        $resolver->setNormalizer('parent_data', function (Options $options, $value) {
-            return VariantType::normalizeParentData($options, $value);
-        });
-        $resolver->setNormalizer('choices', function (Options $options, $value) {
-            $attribute = $options['attribute'];
-            $families = [];
-            /** @var array $variantFamilies */
-            $variantFamilies = $attribute->getOptions()['variant_families'];
-            foreach ($variantFamilies as $familyCode) {
-                $family = $this->familyConfigurationHandler->getFamily($familyCode);
-                if (!$family instanceof VariantFamily) {
-                    throw new \UnexpectedValueException("Variant families in attribute options must be of type VariantFamily, '{$family->getCode()}' is not a variant");
-                }
-                $families[ucfirst($family)] = $family;
+            function (Options $options, $value) {
+                return VariantType::normalizeVariantAttribute($value);
             }
+        );
+        $resolver->setNormalizer(
+            'parent_data',
+            function (Options $options, $value) {
+                return VariantType::normalizeParentData($options, $value);
+            }
+        );
+        $resolver->setNormalizer(
+            'choices',
+            function (Options $options, $value) {
+                $attribute = $options['attribute'];
+                $families = [];
+                /** @var array $variantFamilies */
+                $variantFamilies = $attribute->getOptions()['variant_families'];
+                foreach ($variantFamilies as $familyCode) {
+                    $family = $this->familyConfigurationHandler->getFamily($familyCode);
+                    if (!$family instanceof VariantFamily) {
+                        throw new \UnexpectedValueException(
+                            "Variant families in attribute options must be of type VariantFamily, '{$family->getCode()}' is not a variant"
+                        );
+                    }
+                    $families[ucfirst($family)] = $family;
+                }
 
-            return $families;
-        });
+                return $families;
+            }
+        );
     }
 
     /**

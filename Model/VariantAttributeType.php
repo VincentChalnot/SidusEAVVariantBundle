@@ -18,6 +18,7 @@ class VariantAttributeType extends AttributeType
 
     /**
      * @param AttributeInterface $attribute
+     *
      * @throws \Exception
      */
     public function setAttributeDefaults(AttributeInterface $attribute)

@@ -22,6 +22,7 @@ class SidusEAVVariantExtension extends Extension
     /**
      * @param array            $configs
      * @param ContainerBuilder $container
+     *
      * @throws \Exception
      */
     public function load(array $configs, ContainerBuilder $container)
@@ -45,28 +46,32 @@ class SidusEAVVariantExtension extends Extension
             $this->addFamilyServiceDefinition($code, $familyConfiguration, $container);
         }
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yml');
-        $loader->load('forms.yml');
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/services'));
         $loader->load('attribute_types.yml');
+        $loader->load('forms.yml');
+        $loader->load('model.yml');
+        $loader->load('validators.yml');
     }
 
     /**
      * @param string           $code
      * @param array            $familyConfiguration
      * @param ContainerBuilder $container
+     *
      * @throws BadMethodCallException
      * @throws InvalidArgumentException
      */
     protected function addFamilyServiceDefinition($code, $familyConfiguration, ContainerBuilder $container)
     {
-        $definition = new Definition(new Parameter('sidus_eav_variant.family.class'), [
+        $definition = new Definition(
+            new Parameter('sidus_eav_variant.family.class'), [
             $code,
             new Reference('sidus_eav_model.attribute_configuration.handler'),
             new Reference('sidus_eav_model.family_configuration.handler'),
             new Reference('sidus_eav_model.context.manager'),
             $familyConfiguration,
-        ]);
+        ]
+        );
         $definition->addMethodCall('setTranslator', [new Reference('translator')]);
         $definition->addTag('sidus.family');
         $sId = 'sidus_eav_variant.family.'.$code;

@@ -1,0 +1,6 @@
+services:
+    sidus_eav_variant.validator.unique_variant:
+        class: Sidus\EAVVariantBundle\Validator\Constraints\UniqueVariantValidator
+        arguments: ['%sidus_eav_model.entity.data.class%']
+        tags:
+            - { name: validator.constraint_validator, alias: sidus_unique_variant }

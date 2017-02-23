@@ -1,12 +1,6 @@
-parameters:
-    sidus_eav_variant.form.type.variant_collection.class: Sidus\EAVVariantBundle\Form\Type\VariantCollectionType
-    sidus_eav_variant.form.type.variant.class: Sidus\EAVVariantBundle\Form\Type\VariantType
-    sidus_eav_variant.form.type.variant_family_selector.class: Sidus\EAVVariantBundle\Form\Type\VariantFamilySelectorType
-    sidus_eav_variant.form.type.axles.class: Sidus\EAVVariantBundle\Form\Type\AxlesType
-
 services:
     sidus_eav_variant.form.type.variant_collection:
-        class: '%sidus_eav_variant.form.type.variant_collection.class%'
+        class: Sidus\EAVVariantBundle\Form\Type\VariantCollectionType
         arguments:
             - '@sidus_eav_model.family_configuration.handler'
             - '@sidus_eav_model.attribute_configuration.handler'
@@ -15,18 +9,18 @@ services:
             - { name: form.type, alias: sidus_variant_collection }
 
     sidus_eav_variant.form.type.variant:
-        class: '%sidus_eav_variant.form.type.variant.class%'
+        class: Sidus\EAVVariantBundle\Form\Type\VariantType
         parent: sidus_eav_model.form.type.data
         tags:
             - { name: form.type, alias: sidus_variant }
 
     sidus_eav_variant.form.type.variant_family_selector:
-        class: '%sidus_eav_variant.form.type.variant_family_selector.class%'
+        class: Sidus\EAVVariantBundle\Form\Type\VariantFamilySelectorType
         arguments: ['@sidus_eav_model.family_configuration.handler']
         tags:
             - { name: form.type, alias: sidus_variant_family_selector }
 
     sidus_eav_variant.form.type.axles:
-        class: '%sidus_eav_variant.form.type.axles.class%'
+        class: Sidus\EAVVariantBundle\Form\Type\AxlesType
         tags:
             - { name: form.type, alias: sidus_axles }

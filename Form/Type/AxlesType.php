@@ -13,6 +13,7 @@ class AxlesType extends AbstractType
 {
     /**
      * @param OptionsResolver $resolver
+     *
      * @throws AccessException
      * @throws UndefinedOptionsException
      * @throws MissingFamilyException
@@ -20,19 +21,24 @@ class AxlesType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'required' => true,
-            'label' => false,
-            'inherit_data' => true,
-            'read_only' => null,
-        ]);
-        $resolver->setNormalizer('read_only', function (Options $options, $value) {
-            if (null === $value) {
-                return $options['disabled'];
-            }
+        $resolver->setDefaults(
+            [
+                'required' => true,
+                'label' => false,
+                'inherit_data' => true,
+                'read_only' => null,
+            ]
+        );
+        $resolver->setNormalizer(
+            'read_only',
+            function (Options $options, $value) {
+                if (null === $value) {
+                    return $options['disabled'];
+                }
 
-            return $value;
-        });
+                return $value;
+            }
+        );
     }
 
     /**

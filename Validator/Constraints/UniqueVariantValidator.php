@@ -31,15 +31,18 @@ class UniqueVariantValidator extends ConstraintValidator
     /**
      * Checks if the passed value is valid.
      *
-     * @param DataInterface $data       The value that should be validated
+     * @param DataInterface $data The value that should be validated
      * @param Constraint    $constraint The constraint for the validation
+     *
      * @return ConstraintViolationListInterface
      * @throws Exception
      */
     public function validate($data, Constraint $constraint)
     {
         if (!$constraint instanceof UniqueVariant) {
-            throw new \UnexpectedValueException("Can't validate this type of constraint, please provide a UniqueVariant constraint");
+            throw new \UnexpectedValueException(
+                "Can't validate this type of constraint, please provide a UniqueVariant constraint"
+            );
         }
         if (!$data instanceof $this->dataClass) {
             $class = get_class($data);
@@ -52,7 +55,9 @@ class UniqueVariantValidator extends ConstraintValidator
         $currentCombination = [];
         foreach ($family->getAxles() as $attribute) {
             if ($attribute->isMultiple()) {
-                throw new \LogicException("Family axle '{$attribute->getCode()}' is multiple, multiple axles support is not implemented yet");
+                throw new \LogicException(
+                    "Family axle '{$attribute->getCode()}' is multiple, multiple axles support is not implemented yet"
+                );
             }
             $currentCombination[$attribute->getCode()] = $data->getValueData($attribute);
         }
@@ -79,6 +84,7 @@ class UniqueVariantValidator extends ConstraintValidator
     /**
      * @param array $currentCombination
      * @param array $variantDataCombination
+     *
      * @return bool
      */
     protected function compareCombinations(array $currentCombination, array $variantDataCombination)

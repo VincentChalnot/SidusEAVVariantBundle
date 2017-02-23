@@ -24,6 +24,7 @@ class Configuration extends BaseConfiguration
         $familyDefinition = $rootNode
             ->children()
             ->arrayNode('routes')
+            ->isRequired()
             ->children()
             ->scalarNode('select')->isRequired()->end()
             ->scalarNode('create')->isRequired()->end()

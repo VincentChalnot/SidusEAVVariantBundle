@@ -17,10 +17,9 @@
             "role": "Developer"
         }
     ],
-    "target-dir": "Sidus/EAVVariantBundle",
     "autoload": {
-        "psr-0": {
-            "Sidus\\EAVVariantBundle": ""
+        "psr-4": {
+            "Sidus\\EAVVariantBundle\\": ""
         }
     },
     "require": {

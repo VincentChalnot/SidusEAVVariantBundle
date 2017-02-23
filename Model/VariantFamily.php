@@ -15,7 +15,7 @@ class VariantFamily extends Family
     protected $axles;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function __construct(
         $code,
@@ -47,6 +47,7 @@ class VariantFamily extends Family
 
     /**
      * @param string $code
+     *
      * @return AttributeInterface
      * @throws UnexpectedValueException
      */
@@ -61,6 +62,7 @@ class VariantFamily extends Family
 
     /**
      * @param string $code
+     *
      * @return bool
      */
     public function hasAxle($code)
@@ -77,7 +79,7 @@ class VariantFamily extends Family
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getAttribute($code)
     {
@@ -89,7 +91,7 @@ class VariantFamily extends Family
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function hasAttribute($code)
     {

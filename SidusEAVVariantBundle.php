@@ -13,6 +13,6 @@ class SidusEAVVariantBundle extends Bundle
      */
     public function getParent()
     {
-        return 'SidusEAVBootstrapBundle';
+        return 'SidusEAVModelBundle';
     }
 }

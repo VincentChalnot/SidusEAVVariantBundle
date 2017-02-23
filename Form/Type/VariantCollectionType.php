@@ -46,6 +46,7 @@ class VariantCollectionType extends AbstractType
      * @param FormView      $view
      * @param FormInterface $form
      * @param array         $options
+     *
      * @throws \UnexpectedValueException
      * @throws \LogicException
      * @throws \Sidus\EAVModelBundle\Exception\MissingFamilyException
@@ -63,7 +64,9 @@ class VariantCollectionType extends AbstractType
 
         $variantFamiliesOption = $attribute->getOption('variant_families');
         if (empty($variantFamiliesOption)) {
-            throw new \LogicException('Variant attribute must have at least one variant family in the variant_families option');
+            throw new \LogicException(
+                'Variant attribute must have at least one variant family in the variant_families option'
+            );
         }
         $variantFamilies = [];
         foreach ($variantFamiliesOption as $code) {
@@ -80,6 +83,7 @@ class VariantCollectionType extends AbstractType
 
     /**
      * @param OptionsResolver $resolver
+     *
      * @throws AccessException
      * @throws UndefinedOptionsException
      * @throws MissingFamilyException
@@ -87,24 +91,31 @@ class VariantCollectionType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'required' => false,
-            'routes' => $this->routes,
-        ]);
-        $resolver->setRequired([
+        $resolver->setDefaults(
+            [
+                'required' => false,
+                'routes' => $this->routes,
+            ]
+        );
+        $resolver->setRequired(
+            [
+                'attribute',
+            ]
+        );
+        $resolver->setNormalizer(
             'attribute',
-        ]);
-        $resolver->setNormalizer('attribute', function (Options $options, $value) {
-            if ($value instanceof AttributeInterface) {
-                return $value;
-            }
-            $attribute = $this->attributeConfigurationHandler->getAttribute($value);
-            if (!$attribute->getType() instanceof VariantAttributeType) {
-                throw new \UnexpectedValueException('Attribute option must be of type VariantAttributeType');
-            }
+            function (Options $options, $value) {
+                if ($value instanceof AttributeInterface) {
+                    return $value;
+                }
+                $attribute = $this->attributeConfigurationHandler->getAttribute($value);
+                if (!$attribute->getType() instanceof VariantAttributeType) {
+                    throw new \UnexpectedValueException('Attribute option must be of type VariantAttributeType');
+                }
 
-            return $attribute;
-        });
+                return $attribute;
+            }
+        );
     }
 
     /**

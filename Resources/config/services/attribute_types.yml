@@ -1,0 +1,6 @@
+services:
+    sidus_eav_variant.attribute_type.variants:
+        class: Sidus\EAVVariantBundle\Model\VariantAttributeType
+        arguments: [variants, dataValue, Sidus\EAVVariantBundle\Form\Type\VariantCollectionType]
+        tags:
+            - { name: sidus.attribute_type }

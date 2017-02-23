@@ -19,6 +19,7 @@ class VariantType extends DataType
 {
     /**
      * @param AttributeInterface $value
+     *
      * @return AttributeInterface
      * @throws UnexpectedValueException
      */
@@ -38,6 +39,7 @@ class VariantType extends DataType
     /**
      * @param Options       $options
      * @param DataInterface $value
+     *
      * @return DataInterface
      * @throws UnexpectedValueException
      */
@@ -45,7 +47,9 @@ class VariantType extends DataType
     {
         if (!$value instanceof DataInterface) {
             $class = get_class($value);
-            throw new UnexpectedValueException("parent_data option must be an instance of Sidus\\EAVModelBundle\\Entity\\Data, '{$class}' given");
+            throw new UnexpectedValueException(
+                "parent_data option must be an instance of Sidus\\EAVModelBundle\\Entity\\Data, '{$class}' given"
+            );
         }
         $attributeCode = $options['attribute']->getCode();
         /** @var DataInterface $value */
@@ -59,6 +63,7 @@ class VariantType extends DataType
     /**
      * @param FormInterface $form
      * @param array         $options
+     *
      * @throws \Exception
      */
     public function buildCreateForm(FormInterface $form, array $options)
@@ -71,6 +76,7 @@ class VariantType extends DataType
      * @param FamilyInterface $family
      * @param DataInterface   $data
      * @param array           $options
+     *
      * @throws \Exception
      */
     public function buildValuesForm(
@@ -80,17 +86,27 @@ class VariantType extends DataType
         array $options = []
     ) {
         if ($family instanceof VariantFamily) {
-            $form->add('axles', AxlesType::class, [
-                'disabled' => $data->getId() ? true : false,
-            ]);
+            $form->add(
+                'axles',
+                AxlesType::class,
+                [
+                    'disabled' => $data->getId() ? true : false,
+                ]
+            );
             $axles = $form->get('axles');
             foreach ($family->getAxles() as $attribute) {
-                $this->addAttribute($axles, $attribute, $family, $data, [
-                    'required' => true,
-                    'constraints' => [
-                        new NotBlank(),
-                    ],
-                ]);
+                $this->addAttribute(
+                    $axles,
+                    $attribute,
+                    $family,
+                    $data,
+                    [
+                        'required' => true,
+                        'constraints' => [
+                            new NotBlank(),
+                        ],
+                    ]
+                );
             }
         }
         parent::buildValuesForm($form, $family, $data, $options);
@@ -98,29 +114,43 @@ class VariantType extends DataType
 
     /**
      * @param OptionsResolver $resolver
+     *
      * @throws \Exception
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         parent::configureOptions($resolver);
-        $resolver->setRequired([
+        $resolver->setRequired(
+            [
+                'attribute',
+                'parent_data',
+            ]
+        );
+        $resolver->setNormalizer(
             'attribute',
+            function (Options $options, $value) {
+                return self::normalizeVariantAttribute($value);
+            }
+        );
+        $resolver->setNormalizer(
             'parent_data',
-        ]);
-        $resolver->setNormalizer('attribute', function (Options $options, $value) {
-            return self::normalizeVariantAttribute($value);
-        });
-        $resolver->setNormalizer('parent_data', function (Options $options, $value) {
-            return self::normalizeParentData($options, $value);
-        });
-        $resolver->setNormalizer('constraints', function (Options $options, $constraints) {
-            $constraints[] = new UniqueVariant([
-                'attribute' => $options['attribute'],
-                'parentData' => $options['parent_data'],
-            ]);
+            function (Options $options, $value) {
+                return self::normalizeParentData($options, $value);
+            }
+        );
+        $resolver->setNormalizer(
+            'constraints',
+            function (Options $options, $constraints) {
+                $constraints[] = new UniqueVariant(
+                    [
+                        'attribute' => $options['attribute'],
+                        'parentData' => $options['parent_data'],
+                    ]
+                );
 
-            return $constraints;
-        });
+                return $constraints;
+            }
+        );
     }
 
     /**
