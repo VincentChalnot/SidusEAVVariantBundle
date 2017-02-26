@@ -3,19 +3,10 @@
 namespace Sidus\EAVVariantBundle\Model;
 
 use Sidus\EAVModelBundle\Model\AttributeInterface;
-use Sidus\EAVModelBundle\Model\AttributeType;
+use Sidus\EAVModelBundle\Model\RelationAttributeType;
 
-class VariantAttributeType extends AttributeType
+class VariantAttributeType extends RelationAttributeType
 {
-    /**
-     * @inheritdoc
-     */
-    public function __construct($code, $databaseType, $formType, array $formOptions = [])
-    {
-        parent::__construct($code, $databaseType, $formType, $formOptions);
-        $this->isRelation = false;
-    }
-
     /**
      * @param AttributeInterface $attribute
      *
