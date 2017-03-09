@@ -31,7 +31,7 @@ class UniqueVariantValidator extends ConstraintValidator
     /**
      * Checks if the passed value is valid.
      *
-     * @param DataInterface $data The value that should be validated
+     * @param DataInterface $data       The value that should be validated
      * @param Constraint    $constraint The constraint for the validation
      *
      * @return ConstraintViolationListInterface
@@ -54,16 +54,17 @@ class UniqueVariantValidator extends ConstraintValidator
         }
         $currentCombination = [];
         foreach ($family->getAxles() as $attribute) {
-            if ($attribute->isMultiple()) {
+            if ($attribute->isCollection()) {
                 throw new \LogicException(
-                    "Family axle '{$attribute->getCode()}' is multiple, multiple axles support is not implemented yet"
+                    "Family axle '{$attribute->getCode()}' is a collection, collection axles support is supported"
                 );
             }
-            $currentCombination[$attribute->getCode()] = $data->getValueData($attribute);
+            $currentCombination[$attribute->getCode()] = $data->get($attribute->getCode());
         }
 
-        /** @var DataInterface $variantData */
-        foreach ($constraint->parentData->getValuesData($constraint->attribute) as $variantData) {
+        /** @var DataInterface[] $variantDatas */
+        $variantDatas = $constraint->parentData->get($constraint->attribute->getCode());
+        foreach ($variantDatas as $variantData) {
             if ($variantData->getFamilyCode() !== $family->getCode()) {
                 continue;
             }
@@ -72,7 +73,7 @@ class UniqueVariantValidator extends ConstraintValidator
             }
             $variantDataCombination = [];
             foreach ($family->getAxles() as $attribute) {
-                $variantDataCombination[$attribute->getCode()] = $variantData->getValueData($attribute);
+                $variantDataCombination[$attribute->getCode()] = $variantData->get($attribute->getCode());
             }
             if ($this->compareCombinations($currentCombination, $variantDataCombination)) {
                 $this->context->buildViolation('sidus_eav_variant.errors.invalid_axle_combination')
