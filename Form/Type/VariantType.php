@@ -15,6 +15,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use UnexpectedValueException;
 
+/**
+ * Adding axis selection on default DataType
+ */
 class VariantType extends DataType
 {
     /**
@@ -98,7 +101,6 @@ class VariantType extends DataType
                 $this->addAttribute(
                     $axles,
                     $attribute,
-                    $family,
                     $data,
                     [
                         'required' => true,
