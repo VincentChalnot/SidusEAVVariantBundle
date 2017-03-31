@@ -64,14 +64,16 @@ class SidusEAVVariantExtension extends Extension
     protected function addFamilyServiceDefinition($code, $familyConfiguration, ContainerBuilder $container)
     {
         $definition = new Definition(
-            new Parameter('sidus_eav_variant.family.class'), [
-            $code,
-            new Reference('sidus_eav_model.attribute_configuration.handler'),
-            new Reference('sidus_eav_model.family_configuration.handler'),
-            new Reference('sidus_eav_model.context.manager'),
-            $familyConfiguration,
-        ]
+            new Parameter('sidus_eav_variant.family.class'),
+            [
+                $code,
+                new Reference('sidus_eav_model.attribute_configuration.handler'),
+                new Reference('sidus_eav_model.family_configuration.handler'),
+                new Reference('sidus_eav_model.context.manager'),
+                $familyConfiguration,
+            ]
         );
+        $definition->setPublic(false);
         $definition->addMethodCall('setTranslator', [new Reference('translator')]);
         $definition->addTag('sidus.family');
         $sId = 'sidus_eav_variant.family.'.$code;
