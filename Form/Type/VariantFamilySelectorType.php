@@ -2,7 +2,7 @@
 
 namespace Sidus\EAVVariantBundle\Form\Type;
 
-use Sidus\EAVModelBundle\Configuration\FamilyConfigurationHandler;
+use Sidus\EAVModelBundle\Registry\FamilyRegistry;
 use Sidus\EAVModelBundle\Exception\MissingFamilyException;
 use Sidus\EAVModelBundle\Form\Type\FamilySelectorType;
 use Sidus\EAVVariantBundle\Model\VariantFamily;
@@ -18,17 +18,17 @@ use Symfony\Component\Validator\Exception\MissingOptionsException;
 
 class VariantFamilySelectorType extends AbstractType
 {
-    /** @var FamilyConfigurationHandler */
-    protected $familyConfigurationHandler;
+    /** @var FamilyRegistry */
+    protected $familyRegistry;
 
     /**
      * VariantFamilySelectorType constructor.
      *
-     * @param FamilyConfigurationHandler $familyConfigurationHandler
+     * @param FamilyRegistry $familyRegistry
      */
-    public function __construct(FamilyConfigurationHandler $familyConfigurationHandler)
+    public function __construct(FamilyRegistry $familyRegistry)
     {
-        $this->familyConfigurationHandler = $familyConfigurationHandler;
+        $this->familyRegistry = $familyRegistry;
     }
 
     /**
@@ -76,7 +76,7 @@ class VariantFamilySelectorType extends AbstractType
                 /** @var array $variantFamilies */
                 $variantFamilies = $attribute->getOptions()['variant_families'];
                 foreach ($variantFamilies as $familyCode) {
-                    $family = $this->familyConfigurationHandler->getFamily($familyCode);
+                    $family = $this->familyRegistry->getFamily($familyCode);
                     if (!$family instanceof VariantFamily) {
                         throw new \UnexpectedValueException(
                             "Variant families in attribute options must be of type VariantFamily, '{$family->getCode()}' is not a variant"

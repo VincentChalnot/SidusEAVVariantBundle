@@ -2,8 +2,8 @@ services:
     sidus_eav_variant.form.type.variant_collection:
         class: Sidus\EAVVariantBundle\Form\Type\VariantCollectionType
         arguments:
-            - '@sidus_eav_model.family_configuration.handler'
-            - '@sidus_eav_model.attribute_configuration.handler'
+            - '@sidus_eav_model.family.registry'
+            - '@sidus_eav_model.attribute.registry'
             - '%sidus_eav_variant.config.routes%'
         tags:
             - { name: form.type, alias: sidus_variant_collection }
@@ -16,7 +16,7 @@ services:
 
     sidus_eav_variant.form.type.variant_family_selector:
         class: Sidus\EAVVariantBundle\Form\Type\VariantFamilySelectorType
-        arguments: ['@sidus_eav_model.family_configuration.handler']
+        arguments: ['@sidus_eav_model.family.registry']
         tags:
             - { name: form.type, alias: sidus_variant_family_selector }
 

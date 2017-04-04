@@ -67,8 +67,8 @@ class SidusEAVVariantExtension extends Extension
             new Parameter('sidus_eav_variant.family.class'),
             [
                 $code,
-                new Reference('sidus_eav_model.attribute_configuration.handler'),
-                new Reference('sidus_eav_model.family_configuration.handler'),
+                new Reference('sidus_eav_model.attribute.registry'),
+                new Reference('sidus_eav_model.family.registry'),
                 new Reference('sidus_eav_model.context.manager'),
                 $familyConfiguration,
             ]

@@ -2,8 +2,8 @@
 
 namespace Sidus\EAVVariantBundle\Form\Type;
 
-use Sidus\EAVModelBundle\Configuration\AttributeConfigurationHandler;
-use Sidus\EAVModelBundle\Configuration\FamilyConfigurationHandler;
+use Sidus\EAVModelBundle\Registry\AttributeRegistry;
+use Sidus\EAVModelBundle\Registry\FamilyRegistry;
 use Sidus\EAVModelBundle\Entity\DataInterface;
 use Sidus\EAVModelBundle\Exception\MissingFamilyException;
 use Sidus\EAVModelBundle\Model\AttributeInterface;
@@ -18,27 +18,27 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class VariantCollectionType extends AbstractType
 {
-    /** @var FamilyConfigurationHandler */
-    protected $familyConfigurationHandler;
+    /** @var FamilyRegistry */
+    protected $familyRegistry;
 
-    /** @var AttributeConfigurationHandler */
-    protected $attributeConfigurationHandler;
+    /** @var AttributeRegistry */
+    protected $attributeRegistry;
 
     /** @var string */
     protected $routes;
 
     /**
-     * @param FamilyConfigurationHandler    $familyConfigurationHandler
-     * @param AttributeConfigurationHandler $attributeConfigurationHandler
+     * @param FamilyRegistry    $familyRegistry
+     * @param AttributeRegistry $attributeRegistry
      * @param array                         $routes
      */
     public function __construct(
-        FamilyConfigurationHandler $familyConfigurationHandler,
-        AttributeConfigurationHandler $attributeConfigurationHandler,
+        FamilyRegistry $familyRegistry,
+        AttributeRegistry $attributeRegistry,
         array $routes
     ) {
-        $this->familyConfigurationHandler = $familyConfigurationHandler;
-        $this->attributeConfigurationHandler = $attributeConfigurationHandler;
+        $this->familyRegistry = $familyRegistry;
+        $this->attributeRegistry = $attributeRegistry;
         $this->routes = $routes;
     }
 
@@ -70,7 +70,7 @@ class VariantCollectionType extends AbstractType
         }
         $variantFamilies = [];
         foreach ($variantFamiliesOption as $code) {
-            $variantFamilies[] = $this->familyConfigurationHandler->getFamily($code);
+            $variantFamilies[] = $this->familyRegistry->getFamily($code);
         }
         $view->vars['variant_families'] = $variantFamilies;
         $view->vars['routes'] = $this->routes;
@@ -108,7 +108,7 @@ class VariantCollectionType extends AbstractType
                 if ($value instanceof AttributeInterface) {
                     return $value;
                 }
-                $attribute = $this->attributeConfigurationHandler->getAttribute($value);
+                $attribute = $this->attributeRegistry->getAttribute($value);
                 if (!$attribute->getType() instanceof VariantAttributeType) {
                     throw new \UnexpectedValueException('Attribute option must be of type VariantAttributeType');
                 }

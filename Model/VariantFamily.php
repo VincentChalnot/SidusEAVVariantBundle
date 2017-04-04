@@ -2,8 +2,8 @@
 
 namespace Sidus\EAVVariantBundle\Model;
 
-use Sidus\EAVModelBundle\Configuration\AttributeConfigurationHandler;
-use Sidus\EAVModelBundle\Configuration\FamilyConfigurationHandler;
+use Sidus\EAVModelBundle\Registry\AttributeRegistry;
+use Sidus\EAVModelBundle\Registry\FamilyRegistry;
 use Sidus\EAVModelBundle\Context\ContextManager;
 use Sidus\EAVModelBundle\Model\AttributeInterface;
 use Sidus\EAVModelBundle\Model\Family;
@@ -19,19 +19,19 @@ class VariantFamily extends Family
      */
     public function __construct(
         $code,
-        AttributeConfigurationHandler $attributeConfigurationHandler,
-        FamilyConfigurationHandler $familyConfigurationHandler,
+        AttributeRegistry $attributeRegistry,
+        FamilyRegistry $familyRegistry,
         ContextManager $contextManager,
         array $config
     ) {
         foreach ($config['axles'] as $axle) {
-            $this->axles[$axle] = $attributeConfigurationHandler->getAttribute($axle);
+            $this->axles[$axle] = $attributeRegistry->getAttribute($axle);
         }
         unset($config['axles']);
         parent::__construct(
             $code,
-            $attributeConfigurationHandler,
-            $familyConfigurationHandler,
+            $attributeRegistry,
+            $familyRegistry,
             $contextManager,
             $config
         );
