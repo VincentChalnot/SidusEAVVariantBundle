@@ -9,7 +9,7 @@ use Sidus\EAVModelBundle\Model\FamilyInterface;
 use Sidus\EAVVariantBundle\Model\VariantAttributeType;
 use Sidus\EAVVariantBundle\Model\VariantFamily;
 use Sidus\EAVVariantBundle\Validator\Constraints\UniqueVariant;
-use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -64,44 +64,27 @@ class VariantType extends DataType
     }
 
     /**
-     * @param FormInterface $form
-     * @param array         $options
+     * @param FormBuilderInterface $builder
+     * @param array                $options
      *
      * @throws \Exception
      */
-    public function buildCreateForm(FormInterface $form, array $options)
+    public function buildValuesForm(FormBuilderInterface $builder, array $options = [])
     {
-        throw new \LogicException('Variant cannot be created without a family');
-    }
+        /** @var FamilyInterface $family */
+        $family = $options['family'];
 
-    /**
-     * @param FormInterface   $form
-     * @param FamilyInterface $family
-     * @param DataInterface   $data
-     * @param array           $options
-     *
-     * @throws \Exception
-     */
-    public function buildValuesForm(
-        FormInterface $form,
-        FamilyInterface $family,
-        DataInterface $data = null,
-        array $options = []
-    ) {
         if ($family instanceof VariantFamily) {
-            $form->add(
+            /** @var VariantFamily $family */
+            $builder->add(
                 'axles',
-                AxlesType::class,
-                [
-                    'disabled' => $data->getId() ? true : false,
-                ]
+                AxlesType::class
             );
-            $axles = $form->get('axles');
+            $axles = $builder->get('axles');
             foreach ($family->getAxles() as $attribute) {
-                $this->addAttribute(
+                $this->attributeFormBuilder->addAttribute(
                     $axles,
                     $attribute,
-                    $data,
                     [
                         'required' => true,
                         'constraints' => [
@@ -111,7 +94,7 @@ class VariantType extends DataType
                 );
             }
         }
-        parent::buildValuesForm($form, $family, $data, $options);
+        parent::buildValuesForm($builder, $options);
     }
 
     /**
